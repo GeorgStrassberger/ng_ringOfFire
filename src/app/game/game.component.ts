@@ -15,11 +15,7 @@ export class GameComponent implements OnInit {
   }
 
   takeCard(){
-    if (this.pickCardAnimation) {
-      this.pickCardAnimation = false;
-    }else{
     this.pickCardAnimation = true;
-    }
   }
 
 }
