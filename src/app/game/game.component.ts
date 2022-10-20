@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameComponent implements OnInit {
 
+  pickCardAnimation = false;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  takeCard(){
+    if (this.pickCardAnimation) {
+      this.pickCardAnimation = false;
+    }else{
+    this.pickCardAnimation = true;
+    }
   }
 
 }

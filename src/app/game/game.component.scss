@@ -15,6 +15,17 @@
             position: absolute;
             width: 120px;
             transform: translate(+50%, -50%);
+            transition: all 125ms ease-in-out;
         }
+        .top-card {
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.1) translate(+50%, -50%);
+            }
+        }
+    }
+    .pick-card {
+        transition: all 125ms ease-in-out;
+        transform: scale(1.5) translate(+50%, -50%) !important;
     }
 }
