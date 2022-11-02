@@ -13,19 +13,16 @@ export class GameComponent implements OnInit {
   currentCard: string | any = '';
 
   constructor() {
-
   }
 
   ngOnInit(): void {
     this.newGame();
   }
 
-
   newGame(){
     this.game = new Game();
     console.log(this.game);
   }
-
 
   takeCard(){
     if (!this.pickCardAnimation) {

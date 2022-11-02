@@ -1,4 +1,4 @@
-<app-player class="player-position" style="top: 130px;"></app-player>
+<app-player class="player-position" *ngFor="let player of game.players; let i = index;" [ngStyle]="{'top.px': 100 + (i * 120)}" [name]="player"></app-player>
 
 <div class="field">
 
@@ -16,3 +16,7 @@
     </div>
 
 </div>
+<!-- Material Design components for Angular -->
+<button mat-fab color="primary" class="btn-add">
+    <mat-icon>add</mat-icon>
+</button>
