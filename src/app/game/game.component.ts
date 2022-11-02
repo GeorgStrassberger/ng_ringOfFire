@@ -31,11 +31,16 @@ export class GameComponent implements OnInit {
       //remove last Card from Stack
       this.currentCard = this.game.stack.pop();
       this.pickCardAnimation = true;
+      // PlayerRotation
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      //0 = 0 / 3 = 0;
+      //1 = 1 / 3 = 1;
+      //2 = 2 / 3 = 2;
+      //3 = 3 / 3 = 0;
+      //4 = 4 / 3 = 1;
 
-      console.log('New card: ', this.currentCard);
-      console.log('Game is ',this.game);
-
-
+      //show Card an the same Positon and remove the animated Card
       setTimeout(()=>{
         this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
