@@ -34,11 +34,6 @@ export class GameComponent implements OnInit {
       // PlayerRotation
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
-      //0 = 0 / 3 = 0;
-      //1 = 1 / 3 = 1;
-      //2 = 2 / 3 = 2;
-      //3 = 3 / 3 = 0;
-      //4 = 4 / 3 = 1;
 
       //show Card an the same Positon and remove the animated Card
       setTimeout(()=>{
@@ -52,8 +47,9 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
     dialogRef.afterClosed().subscribe((name: string) => {
-      this.game.players.push(name);
-      console.log('The dialog was closed', name);
+      if (name && name.length > 0) {
+        this.game.players.push(name);
+      }
     });
   }
 
