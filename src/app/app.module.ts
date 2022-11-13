@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // Components
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
@@ -17,7 +16,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input'; 
 import { MatCardModule } from '@angular/material/card';
-import { GameInfoComponent } from './game-info/game-info.component'; 
+import { GameInfoComponent } from './game-info/game-info.component';
+//Firebase
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore'; 
 
 
 @NgModule({
@@ -29,7 +34,7 @@ import { GameInfoComponent } from './game-info/game-info.component';
     DialogAddPlayerComponent,
     GameInfoComponent
   ],
-  imports: [
+  imports: [    
     FormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -40,6 +45,10 @@ import { GameInfoComponent } from './game-info/game-info.component';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]
