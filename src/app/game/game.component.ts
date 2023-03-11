@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-
+import { Firestore, collection, collectionData, doc, setDoc, addDoc, CollectionReference, DocumentData, docData, onSnapshot } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Injectable } from '@angular/core';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -11,22 +14,85 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 export class GameComponent implements OnInit {
 
   pickCardAnimation: boolean = false;
-  game: Game = {} as Game;
+  game!: Game;
   currentCard: string | any = '';
+  game$: Observable<any>;
+  gameCollection: CollectionReference<DocumentData>;
+  gameID;
+  gameDoc;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public firestore: Firestore,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+  ) {
+    this.gameCollection = collection(this.firestore, 'games');
+    this.getGame()
   }
 
-  ngOnInit(): void {
-    this.newGame();
+  async ngOnInit() {
+    await this.newGame();
+    await this.myRoute();
+
+    // this.route.params.subscribe((param)=>{
+    //   console.log('params[id]: ', param['id']);// logt die ID als STRING
+    //   console.log('params: ',param); // logt die ID als JSON
+
+    //   // Echtzeit-Updates  onSnapshot(argument 1, argument2 )
+    //   // argument 1 (doc( datenbank, pfad des dokuments in der sammlung))
+    //   // argument 2 function übergeben
+    //   const unsub = onSnapshot(
+    //     doc(this.firestore, `games/${param['id']}`), (game: any) => {
+    //     console.log("Game update : ", game.data())
+    //     }
+    //     );
+    // });
+  }
+  async myRoute() {
+    await this.route.params.subscribe((para) => {
+      const routId = para['id'];
+      console.log('routeID: ', routId);// logt die ID als STRING
+      console.log('routeID type: ', typeof routId);// logt die ID als STRING
+      this.getOpenId(routId);
+      this.gameID = routId;
+      console.log('gameID2: ', routId);
+
+      console.log('gameDoc: ', this.gameDoc);
+      // this.game.currentPlayer = ourGame.currentPlayer;
+      // this.game.playedCards = ourGame.playedCards;
+      // this.game.players = ourGame.players;
+      // this.game.stack = ourGame.stack; 
+    })
   }
 
-  newGame(){
+  returnMyRoute() {
+    this.route.params.subscribe((para) => {
+      return para['id'];
+    });
+  }
+
+
+  getOpenId(para) {
+    doc(this.firestore, `games/${para}`), (game: any) => {
+      console.log("Game update : ", game.data())
+      // ID übergeben
+    }
+  }
+
+  getGame() {
+    this.gameDoc = doc(this.gameCollection); // holt das Document von der aktuellen Sammlung
+    this.gameID = this.gameDoc.id;  // holt die ID vom aktuellen Document aus der Sammmlung
+    console.log('gameID: ', this.gameID);
+  }
+
+  async newGame() {
     this.game = new Game();
-    console.log(this.game);
+    // Erstellt ein neues Spiel in der Sammlung
+    // let gameInfo = await addDoc(this.gameCollection, this.game.toJson());  //hinzufügen setDoc(param1, param2)
+    // console.log('gameInfo: ',gameInfo);
   }
 
-  takeCard(){
+  takeCard() {
     if (!this.pickCardAnimation) {
       //remove last Card from Stack
       this.currentCard = this.game.stack.pop();
@@ -36,10 +102,10 @@ export class GameComponent implements OnInit {
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
 
       //show Card an the same Positon and remove the animated Card
-      setTimeout(()=>{
+      setTimeout(() => {
         this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
-      },1250);
+      }, 1250);
     }
   }
 
@@ -52,8 +118,6 @@ export class GameComponent implements OnInit {
       }
     });
   }
-
-
 
 }
 

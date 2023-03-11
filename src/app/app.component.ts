@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ring_of_fire';
+
+
+
+  constructor() {
+
+  }
+
+
 }
