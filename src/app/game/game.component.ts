@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { Firestore, collection, collectionData, doc, setDoc, addDoc, CollectionReference, DocumentData, docData, onSnapshot } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
