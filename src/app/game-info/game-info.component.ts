@@ -1,4 +1,4 @@
-import { Component,Input,OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-game-info',
@@ -22,10 +22,9 @@ export class GameInfoComponent implements OnInit, OnChanges {
     { title: 'Rule', description: 'Make a rule. Everyone needs to drink when he breaks the rule.' },
   ];
 
-title: string = '';
-description: string ='';
-@Input() card: string= '';
-
+  title: string = '';
+  description: string = '';
+  @Input() card: string = '';
 
   constructor() { }
 
@@ -33,13 +32,14 @@ description: string ='';
 
   }
 
-  ngOnChanges(): void{
+  ngOnChanges(): void {
     if (this.card) {
-    console.log('Current card is: ', this.card);
-    console.log('Current number is: ', +this.card.split('_')[1]);
-    let cardNumber = +this.card.split('_')[1];
-    this.title = this.cardAction[cardNumber -1].title; // Karten beginnen mit 1 Arrays mit 0 also 1 abziehn
-    this.description = this.cardAction[cardNumber -1].description; // Karten beginnen mit 1 Arrays mit 0 also 1 abziehn
+      console.log('Current card is: ', this.card);
+      console.log('Current number is: ', +this.card.split('_')[1]);
+
+      let cardNumber = +this.card.split('_')[1];
+      this.title = this.cardAction[cardNumber - 1].title; // Karten beginnen mit 1 Arrays mit 0 also 1 abziehn
+      this.description = this.cardAction[cardNumber - 1].description; // Karten beginnen mit 1 Arrays mit 0 also 1 abziehn
     }
   }
 

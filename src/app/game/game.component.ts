@@ -1,123 +1,96 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { Firestore, collection, collectionData, doc, setDoc, addDoc, CollectionReference, DocumentData, docData, onSnapshot } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { GameData } from 'src/models/game-data';
+
+
+
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-
-  pickCardAnimation: boolean = false;
-  game!: Game;
-  currentCard: string | any = '';
-  game$: Observable<any>;
-  gameCollection: CollectionReference<DocumentData>;
-  gameID;
-  gameDoc;
+  game: Game;
+  gameId: string;
 
   constructor(
-    public firestore: Firestore,
     public dialog: MatDialog,
+    private AngularFire: AngularFirestore,
     private route: ActivatedRoute,
-  ) {
-    this.gameCollection = collection(this.firestore, 'games');
-    this.getGame()
-  }
+  ) { }
 
-  async ngOnInit() {
-    await this.newGame();
-    await this.myRoute();
+  ngOnInit() {
+    this.newGame();
 
-    // this.route.params.subscribe((param)=>{
-    //   console.log('params[id]: ', param['id']);// logt die ID als STRING
-    //   console.log('params: ',param); // logt die ID als JSON
+    this.route.params.subscribe(async (params) => {
+      console.log('params', params);
+      console.log('paramsID', params['uid']);
+      this.AngularFire
+        .collection('games')
+        .doc(params['uid'])
+        .valueChanges()
+        .subscribe((game: GameData): void => {
+          console.log('Game update', game);
+          this.game.currentCard;
+          this.game.currentPlayer;
+          this.game.pickCardAnimation;
+          this.game.playedCards;
+          this.game.players;
+          this.game.stack;
+        });
 
-    //   // Echtzeit-Updates  onSnapshot(argument 1, argument2 )
-    //   // argument 1 (doc( datenbank, pfad des dokuments in der sammlung))
-    //   // argument 2 function übergeben
-    //   const unsub = onSnapshot(
-    //     doc(this.firestore, `games/${param['id']}`), (game: any) => {
-    //     console.log("Game update : ", game.data())
-    //     }
-    //     );
-    // });
-  }
-  async myRoute() {
-    await this.route.params.subscribe((para) => {
-      const routId = para['id'];
-      console.log('routeID: ', routId);// logt die ID als STRING
-      console.log('routeID type: ', typeof routId);// logt die ID als STRING
-      this.getOpenId(routId);
-      this.gameID = routId;
-      console.log('gameID2: ', routId);
 
-      console.log('gameDoc: ', this.gameDoc);
-      // this.game.currentPlayer = ourGame.currentPlayer;
-      // this.game.playedCards = ourGame.playedCards;
-      // this.game.players = ourGame.players;
-      // this.game.stack = ourGame.stack; 
-    })
-  }
-
-  returnMyRoute() {
-    this.route.params.subscribe((para) => {
-      return para['id'];
+      // const allGameRef = collection(this.firestore, 'games');
+      // this.gameCollections$ = collectionData(allGameRef);
+      // this.gameCollections$.subscribe((game) => {
+      //   console.log('all Games', game);
+      // });
+      // const docRef = doc(collection(this.firestore, 'games'), params['id']);
+      // this.gameInfo$ = docData(docRef);
+      // this.gameInfo$.subscribe((game) => {
+      //   this.game.currentPlayer = game.currentPlayer;
+      //   this.game.playedCards = game.playedCards;
+      //   this.game.players = game.players;
+      //   this.game.stack = game.stack;
+      //   this.game.currentCard = game.currentCard;
+      //   this.game.pickCardAnimation = game.pickCardAnimation;
+      // });
     });
   }
 
-
-  getOpenId(para) {
-    doc(this.firestore, `games/${para}`), (game: any) => {
-      console.log("Game update : ", game.data())
-      // ID übergeben
-    }
-  }
-
-  getGame() {
-    this.gameDoc = doc(this.gameCollection); // holt das Document von der aktuellen Sammlung
-    this.gameID = this.gameDoc.id;  // holt die ID vom aktuellen Document aus der Sammmlung
-    console.log('gameID: ', this.gameID);
-  }
-
-  async newGame() {
+  newGame() {
     this.game = new Game();
-    // Erstellt ein neues Spiel in der Sammlung
-    // let gameInfo = await addDoc(this.gameCollection, this.game.toJson());  //hinzufügen setDoc(param1, param2)
-    // console.log('gameInfo: ',gameInfo);
   }
+
 
   takeCard() {
-    if (!this.pickCardAnimation) {
-      //remove last Card from Stack
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
-      // PlayerRotation
+    if (!this.game.pickCardAnimation && this.game.stack.length >= 1) {
+      this.game.currentCard = this.game.stack.pop() || '';
+      this.game.pickCardAnimation = true;
       this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.game.currentPlayer =
+        this.game.currentPlayer % this.game.players.length;
 
-      //show Card an the same Positon and remove the animated Card
-      setTimeout(() => {
-        this.game.playedCards.push(this.currentCard);
-        this.pickCardAnimation = false;
-      }, 1250);
+      setTimeout(async () => {
+        if (this.game.currentCard) {
+          this.game.playedCards.push(this.game.currentCard);
+          this.game.pickCardAnimation = false;
+        }
+      }, 1000);
     }
   }
 
-  openDialog(): void {
+  openDialog() {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
 
-    dialogRef.afterClosed().subscribe((name: string) => {
+    dialogRef.afterClosed().subscribe(async (name: string) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
       }
     });
   }
-
 }
-

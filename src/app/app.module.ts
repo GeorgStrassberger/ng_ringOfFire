@@ -9,20 +9,21 @@ import { StartScreenComponent } from './start-screen/start-screen.component';
 import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
 import { DialogAddPlayerComponent } from './dialog-add-player/dialog-add-player.component';
-// Materiel Design 
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'; 
-import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog'; 
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input'; 
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
-import { GameInfoComponent } from './game-info/game-info.component';
-//Firebase
-import { initializeApp,provideFirebaseApp, getApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore'; 
+// Materiel Design 
+import { MatIconModule } from '@angular/material/icon';
+import { GameInfoComponent } from './game-info/game-info.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+//Firebase
+import { AngularFireModule } from '@angular/fire/compat';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+
 
 
 @NgModule({
@@ -34,17 +35,17 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     DialogAddPlayerComponent,
     GameInfoComponent
   ],
-  imports: [    
+  imports: [
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     MatIconModule,
-    MatCardModule,
-    MatDialogModule,
-    MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
+    AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),

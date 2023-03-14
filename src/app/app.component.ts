@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Injectable } from '@angular/core';
 
 
 @Component({
@@ -9,11 +8,6 @@ import { Injectable } from '@angular/core';
 })
 export class AppComponent {
 
-
-
-  constructor() {
-
-  }
-
+  constructor() { }
 
 }

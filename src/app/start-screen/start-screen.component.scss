@@ -7,6 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     img {
         height: 100vh;
     }
@@ -18,13 +19,31 @@
     right: 0;
     bottom: 50px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+
     img {
         width: 40vw;
         height: auto;
+
         &:hover {
             cursor: pointer;
             filter: brightness(1.25);
         }
     }
+
+    span {
+        border: 2px solid gold;
+        padding-inline: 32px;
+        padding-block: 8px;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.5;
+            color: gold
+        }
+    }
+
+    ;
 }
