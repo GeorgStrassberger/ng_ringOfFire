@@ -1,6 +1,7 @@
 .player-position {
     position: absolute;
     right: 0;
+    z-index: 10;
 }
 
 .field {
@@ -14,23 +15,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     .card-stack {
         position: relative;
+
         img {
             position: absolute;
             width: 120px;
         }
+
         .top-card {
             cursor: pointer;
             transition: all 125ms ease-in-out;
+
             &:hover {
                 transform: scale(1.1);
             }
         }
+
         .played-card {
             right: 20px;
             transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
         }
+
         .pick-card {
             animation: pick-card-animation 1.25s ease-in-out;
             transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
@@ -48,12 +55,15 @@
     0% {
         transform: scale(1.1);
     }
+
     40% {
         transform: scale(1.7);
     }
+
     60% {
         transform: scale(1.7);
     }
+
     100% {
         transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
     }

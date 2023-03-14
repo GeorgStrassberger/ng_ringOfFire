@@ -15,8 +15,6 @@ import { GameData } from 'src/models/game-data';
 })
 export class GameComponent implements OnInit {
 
-  pickCardAnimation: boolean = false;
-  currentCard: string = '';
   game: Game;
   gameId: string;
 
@@ -39,12 +37,12 @@ export class GameComponent implements OnInit {
         .valueChanges()
         .subscribe((game: GameData): void => {
           console.log('Game update', game);
-          this.game.currentCard;
-          this.game.currentPlayer;
-          this.game.pickCardAnimation;
-          this.game.playedCards;
-          this.game.players;
-          this.game.stack;
+          this.game.currentCard = game.currentCard;
+          this.game.currentPlayer = game.currentPlayer;
+          this.game.pickCardAnimation = game.pickCardAnimation;
+          this.game.playedCards = game.playedCards;
+          this.game.players = game.players;
+          this.game.stack = game.stack;
         });
 
 
@@ -73,17 +71,18 @@ export class GameComponent implements OnInit {
 
   takeCard() {
     if (!this.game.pickCardAnimation) {
-      this.currentCard = this.game.stack.pop();
-      this.pickCardAnimation = true;
-      console.log('New card: ', this.currentCard);
+      this.game.currentCard = this.game.stack.pop();
+      this.game.pickCardAnimation = true;
+      console.log('New card: ', this.game.currentCard);
       console.log('Game is: ', this.game);
-      this.updateGame(); // saveGame
-
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      this.updateGame(); // saveGame
+
       setTimeout(() => {
-        this.game.playedCards.push(this.currentCard);
-        this.pickCardAnimation = false;
+        this.game.playedCards.push(this.game.currentCard);
+        this.game.pickCardAnimation = false;
+        this.updateGame(); // saveGame
       }, 1250);
     }
   }
