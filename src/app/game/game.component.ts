@@ -14,6 +14,9 @@ import { GameData } from 'src/models/game-data';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+
+  pickCardAnimation: boolean = false;
+  currentCard: string = '';
   game: Game;
   gameId: string;
 
@@ -28,10 +31,11 @@ export class GameComponent implements OnInit {
 
     this.route.params.subscribe(async (params) => {
       console.log('params', params);
-      console.log('paramsID', params['uid']);
+
+      this.gameId = params['uid'];
       this.AngularFire
         .collection('games')
-        .doc(params['uid'])
+        .doc(this.gameId)
         .valueChanges()
         .subscribe((game: GameData): void => {
           console.log('Game update', game);
@@ -68,29 +72,36 @@ export class GameComponent implements OnInit {
 
 
   takeCard() {
-    if (!this.game.pickCardAnimation && this.game.stack.length >= 1) {
-      this.game.currentCard = this.game.stack.pop() || '';
-      this.game.pickCardAnimation = true;
-      this.game.currentPlayer++;
-      this.game.currentPlayer =
-        this.game.currentPlayer % this.game.players.length;
+    if (!this.game.pickCardAnimation) {
+      this.currentCard = this.game.stack.pop();
+      this.pickCardAnimation = true;
+      console.log('New card: ', this.currentCard);
+      console.log('Game is: ', this.game);
+      this.updateGame(); // saveGame
 
-      setTimeout(async () => {
-        if (this.game.currentCard) {
-          this.game.playedCards.push(this.game.currentCard);
-          this.game.pickCardAnimation = false;
-        }
-      }, 1000);
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+      setTimeout(() => {
+        this.game.playedCards.push(this.currentCard);
+        this.pickCardAnimation = false;
+      }, 1250);
     }
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
-    dialogRef.afterClosed().subscribe(async (name: string) => {
+    dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.updateGame();
       }
     });
+  }
+  // saveGame
+  updateGame() {
+    this.AngularFire
+      .collection('games') // die Sammlung
+      .doc(this.gameId)   // das Document
+      .update(this.game.toJSON()); // das Object
   }
 }
