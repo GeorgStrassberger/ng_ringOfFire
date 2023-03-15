@@ -45,5 +45,16 @@
         }
     }
 
-    ;
+}
+
+@media (max-width: 1200px) {
+    .start-screen {
+        overflow: hidden;
+    }
+
+    .start-label-box {
+        img {
+            width: 400px;
+        }
+    }
 }

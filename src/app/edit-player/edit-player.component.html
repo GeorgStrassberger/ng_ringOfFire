@@ -1,0 +1,20 @@
+<div class="card-title">
+    <h1 mat-dialog-title>Seclet Picture</h1>
+    <div class="btn-container" mat-dialog-actions>
+        <button color="primary" mat-button (click)="onClose()">Close</button>
+    </div>
+</div>
+
+
+
+<img [mat-dialog-close]="profilePicture" class="profile-picture" *ngFor="let profilePicture of allProfilePictures"
+    src="/assets/img/profile/{{ profilePicture }}">
+
+
+
+
+<div class="btn-container" mat-dialog-actions>
+    <button color="warn" mat-button [mat-dialog-close]="'DELETE'" cdkFocusInitial>
+        Delete Player
+    </button>
+</div>

@@ -5,6 +5,7 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { GameData } from 'src/models/game-data';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 
@@ -15,6 +16,7 @@ import { GameData } from 'src/models/game-data';
 })
 export class GameComponent implements OnInit {
 
+  gameOver: boolean = false;
   game: Game;
   gameId: string;
 
@@ -27,40 +29,23 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     this.newGame();
 
-    this.route.params.subscribe(async (params) => {
-      console.log('params', params);
+    this.route.params.subscribe((params) => {
 
       this.gameId = params['uid'];
+
       this.AngularFire
         .collection('games')
         .doc(this.gameId)
         .valueChanges()
         .subscribe((game: GameData): void => {
-          console.log('Game update', game);
           this.game.currentCard = game.currentCard;
+          this.game.player_images = game.player_images;
           this.game.currentPlayer = game.currentPlayer;
           this.game.pickCardAnimation = game.pickCardAnimation;
           this.game.playedCards = game.playedCards;
           this.game.players = game.players;
           this.game.stack = game.stack;
         });
-
-
-      // const allGameRef = collection(this.firestore, 'games');
-      // this.gameCollections$ = collectionData(allGameRef);
-      // this.gameCollections$.subscribe((game) => {
-      //   console.log('all Games', game);
-      // });
-      // const docRef = doc(collection(this.firestore, 'games'), params['id']);
-      // this.gameInfo$ = docData(docRef);
-      // this.gameInfo$.subscribe((game) => {
-      //   this.game.currentPlayer = game.currentPlayer;
-      //   this.game.playedCards = game.playedCards;
-      //   this.game.players = game.players;
-      //   this.game.stack = game.stack;
-      //   this.game.currentCard = game.currentCard;
-      //   this.game.pickCardAnimation = game.pickCardAnimation;
-      // });
     });
   }
 
@@ -70,28 +55,47 @@ export class GameComponent implements OnInit {
 
 
   takeCard() {
-    if (!this.game.pickCardAnimation) {
+    if (this.game.stack.length === 0) {
+      this.gameOver = true;
+    } else if (!this.game.pickCardAnimation) {
       this.game.currentCard = this.game.stack.pop();
       this.game.pickCardAnimation = true;
-      console.log('New card: ', this.game.currentCard);
-      console.log('Game is: ', this.game);
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+
       this.updateGame(); // saveGame
 
       setTimeout(() => {
         this.game.playedCards.push(this.game.currentCard);
         this.game.pickCardAnimation = false;
         this.updateGame(); // saveGame
-      }, 1250);
+      }, 1000);
     }
   }
 
-  openDialog() {
+
+  editPlayer(playerID: number) {
+    console.log('EditPlayer', playerID);
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed().subscribe((change: string) => {
+      if (change) {
+        if (change == 'DELETE') {
+          this.game.players.splice(playerID, 1);
+          this.game.player_images.splice(playerID, 1);
+        } else {
+          this.game.player_images[playerID] = change;
+        }
+        this.updateGame();
+      }
+    });
+  }
+
+  openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
       if (name && name.length > 0) {
         this.game.players.push(name);
+        this.game.player_images.push('male.webp');
         this.updateGame();
       }
     });
@@ -103,4 +107,6 @@ export class GameComponent implements OnInit {
       .doc(this.gameId)   // das Document
       .update(this.game.toJSON()); // das Object
   }
+
+
 }

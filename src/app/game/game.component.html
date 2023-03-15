@@ -1,9 +1,24 @@
-<app-player class="player-position" *ngFor="let player of game.players; let i = index;"
-    [ngStyle]="{'top.px': 100 + (i * 90)}" [name]="player" [playerActive]="i == game.currentPlayer">
-</app-player>
+<div *ngIf="!gameOver">
+    <app-player (click)="editPlayer(i)" class="player-position hide-mobile"
+        *ngFor="let player of game.players; let i = index;" [ngStyle]="{'top.px': 20 + (i * 70)}" [name]="player"
+        [playerActive]="i == game.currentPlayer" [profileImg]="game.player_images[i]">
+    </app-player>
+</div>
+<div *ngIf="!gameOver" class="scroll-container hide-desktop">
+    <app-player-mobile (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index;" [name]="player"
+        [playerActive]="i == game.currentPlayer" [profileImg]="game.player_images[i]">
+    </app-player-mobile>
+</div>
+
+<div *ngIf="gameOver" class="gameOver">
+    <img src="/assets/img/game_over.svg">
+</div>
 
 
-<div class="field">
+<div *ngIf="!gameOver" class="field">
+    <!-- Bild vorladen -->
+    <img class="preloadImage" src="/assets/img/cards/{{ game.stack[game.stack.length-1] }}.png">
+
     <div class="card-stack">
         <!-- Card Stack -->
         <img *ngFor="let c of [0,1,2,3]; let i= index;" [ngStyle]="{'right.px': i*5}"
@@ -14,16 +29,16 @@
         <!--Stack for played Card -->
         <img *ngFor="let card of game.playedCards" class="played-card" src="/assets/img/cards/{{ card }}.png">
 
+
         <!-- Current card (Animation) -->
         <img (click)="takeCard()" *ngIf="game.pickCardAnimation" class="pick-card" style="right:20px"
             src="/assets/img/cards/{{ game.currentCard }}.png">
-
     </div>
 </div>
 <!-- Material Design Card -->
 
-<app-game-info [card]="game.currentCard"></app-game-info>
+<app-game-info *ngIf="!gameOver" class="pin-bottom" [card]="game.currentCard"></app-game-info>
 <!-- Material Design components for Angular -->
-<button mat-fab color="primary" class="btn-add" (click)="openDialog()">
+<button *ngIf="!gameOver" mat-fab color="primary" class="btn-add" (click)="openDialog()">
     <mat-icon>add</mat-icon>
 </button>
