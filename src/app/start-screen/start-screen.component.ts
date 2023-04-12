@@ -36,10 +36,10 @@ export class StartScreenComponent implements OnInit, OnDestroy {
     // console.log('gameJSON: ', gameJSON);
     const addGame = await this.gameService.addGame(gameJSON);
     // console.log('addGame.id', addGame.id);
-    this.joinOpenGame(addGame.id);
+    this.joinGame(addGame.id);
   }
 
-  joinOpenGame(id: string): void {
+  joinGame(id: string) {
     this.router.navigateByUrl('/game/' + id);
   }
 

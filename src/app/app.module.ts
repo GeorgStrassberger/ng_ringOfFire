@@ -24,6 +24,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './edit-player/edit-player.component';
+import { GoldenButtonComponent } from './golden-button/golden-button.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { EditPlayerComponent } from './edit-player/edit-player.component';
     GameInfoComponent,
     PlayerMobileComponent,
     EditPlayerComponent,
+    GoldenButtonComponent,
   ],
   imports: [
     FormsModule,

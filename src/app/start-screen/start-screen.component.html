@@ -1,19 +1,17 @@
 <div class="start-screen">
   <img src="assets/img/startbox.png" />
 
-  <div class="output">
+
+  <!-- <div class="output">
     <h2>Output here:</h2>
     <div *ngFor="let game of this.allGames$ | async">
       <strong>UID: </strong><span style="margin-inline:8px;">{{ game.id }}</span>
-      <button (click)="joinOpenGame(game.id)">conect</button>
+      <button (click)="joinGame(game.id)">conect</button>
     </div>
-
-
-
-
-  </div>
+  </div> -->
 
   <div class="start-label-box">
-    <img (click)="startGame()" src="assets/img/startlabel.png" />
+    <app-golden-button (click)="startGame()" [valueMessage]="'Start New Game'"></app-golden-button>
+    <app-golden-button [valueMessage]="'Join open Game'"></app-golden-button>
   </div>
 </div>
