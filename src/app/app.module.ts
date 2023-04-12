@@ -8,11 +8,11 @@ import { AppComponent } from './app.component';
 import { StartScreenComponent } from './start-screen/start-screen.component';
 import { GameComponent } from './game/game.component';
 import { PlayerComponent } from './player/player.component';
-import { DialogAddPlayerComponent } from './dialog-add-player/dialog-add-player.component';
+import { DialogAddPlayerComponent } from './cards/dialog-add-player/dialog-add-player.component';
 import { environment } from '../environments/environment';
 // Materiel Design
 import { MatIconModule } from '@angular/material/icon';
-import { GameInfoComponent } from './game-info/game-info.component';
+import { GameInfoComponent } from './cards/game-info/game-info.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -23,9 +23,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
-import { EditPlayerComponent } from './edit-player/edit-player.component';
-import { GoldenButtonComponent } from './golden-button/golden-button.component';
-import { JoinGameComponent } from './join-game/join-game.component';
+import { EditPlayerComponent } from './cards/edit-player/edit-player.component';
+import { GoldenButtonComponent } from './buttons/golden-button/golden-button.component';
+import { JoinGameComponent } from './cards/join-game/join-game.component';
 
 @NgModule({
   declarations: [

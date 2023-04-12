@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { GameData } from '../game/game.interface';
-import { GameService } from '../game/game.service';
+import { GameData } from '../../game/game.interface';
+import { GameService } from '../../game/game.service';
 import { Router } from '@angular/router';
 
 @Component({

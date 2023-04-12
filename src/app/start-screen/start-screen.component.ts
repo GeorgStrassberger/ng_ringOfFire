@@ -5,7 +5,7 @@ import { Game } from 'src/app/game/game.model';
 import { GameService } from '../game/game.service';
 import { Observable } from 'rxjs';
 import { GameData } from '../game/game.interface';
-import { JoinGameComponent } from '../join-game/join-game.component';
+import { JoinGameComponent } from '../cards/join-game/join-game.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
