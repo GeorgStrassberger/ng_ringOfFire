@@ -6,16 +6,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { GameData } from 'src/models/game-data';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
-
-
+import { GameService } from './game.service';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+  styleUrls: ['./game.component.scss'],
 })
 export class GameComponent implements OnInit {
-
   gameOver: boolean = false;
   game: Game;
   gameId: string;
@@ -24,17 +22,16 @@ export class GameComponent implements OnInit {
     public dialog: MatDialog,
     private AngularFire: AngularFirestore,
     private route: ActivatedRoute,
-  ) { }
+    public gameService: GameService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.newGame();
-
-    this.route.params.subscribe((params) => {
-
+    this.gameService.getRouteId();
+    this.route.params.subscribe((params): void => {
       this.gameId = params['uid'];
 
-      this.AngularFire
-        .collection('games')
+      this.AngularFire.collection('games')
         .doc(this.gameId)
         .valueChanges()
         .subscribe((game: GameData): void => {
@@ -49,35 +46,42 @@ export class GameComponent implements OnInit {
     });
   }
 
-  newGame() {
+  newGame(): void {
     this.game = new Game();
   }
 
+  enoughPlayers(): boolean {
+    return this.game.players.length >= 1;
+  }
 
-  takeCard() {
-    if (this.game.stack.length === 0) {
-      this.gameOver = true;
-    } else if (!this.game.pickCardAnimation) {
-      this.game.currentCard = this.game.stack.pop();
-      this.game.pickCardAnimation = true;
-      this.game.currentPlayer++;
-      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+  takeCard(): void {
+    if (this.enoughPlayers()) {
+      if (this.game.stack.length === 0) {
+        this.gameOver = true;
+      } else if (!this.game.pickCardAnimation) {
+        this.game.currentCard = this.game.stack.pop();
+        this.game.pickCardAnimation = true;
+        this.game.currentPlayer++;
+        this.game.currentPlayer =
+          this.game.currentPlayer % this.game.players.length;
 
-      this.updateGame(); // saveGame
-
-      setTimeout(() => {
-        this.game.playedCards.push(this.game.currentCard);
-        this.game.pickCardAnimation = false;
         this.updateGame(); // saveGame
-      }, 1000);
+
+        setTimeout((): void => {
+          this.game.playedCards.push(this.game.currentCard);
+          this.game.pickCardAnimation = false;
+          this.updateGame(); // saveGame
+        }, 1000);
+      }
+    } else {
+      this.openDialog();
     }
   }
 
-
-  editPlayer(playerID: number) {
+  editPlayer(playerID: number): void {
     console.log('EditPlayer', playerID);
     const dialogRef = this.dialog.open(EditPlayerComponent);
-    dialogRef.afterClosed().subscribe((change: string) => {
+    dialogRef.afterClosed().subscribe((change: string): void => {
       if (change) {
         if (change == 'DELETE') {
           this.game.players.splice(playerID, 1);
@@ -90,23 +94,26 @@ export class GameComponent implements OnInit {
     });
   }
 
+  addPlayer(name: string): void {
+    this.game.players.push(name);
+    this.game.player_images.push('male.webp');
+    this.updateGame();
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.length > 0) {
-        this.game.players.push(name);
-        this.game.player_images.push('male.webp');
-        this.updateGame();
+    dialogRef.afterClosed().subscribe((name: string): void => {
+      if (name) {
+        if (name.length > 0 && name.length < 20) {
+        }
+        this.addPlayer(name);
       }
     });
   }
   // saveGame
-  updateGame() {
-    this.AngularFire
-      .collection('games') // die Sammlung
-      .doc(this.gameId)   // das Document
+  updateGame(): void {
+    this.AngularFire.collection('games') // die Sammlung
+      .doc(this.gameId) // das Document
       .update(this.game.toJSON()); // das Object
   }
-
-
 }

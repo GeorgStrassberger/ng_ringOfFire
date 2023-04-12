@@ -1,8 +1,13 @@
-@media (max-width: 720px) {
-
-    mat-card {
-        padding: 32px;
-        min-height: 120px;
-    }
-
+mat-card {
+  padding: 16px 32px;
+  height: 200px;
+  background-color: transparent;
+  mat-card-title {
+    font-size: 32px;
+    line-height: normal;
+  }
+  mat-card-content {
+    font-size: 24px;
+    line-height: normal;
+  }
 }
