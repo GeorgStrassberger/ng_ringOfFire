@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from 'src/app/game/game';
+import { Game } from 'src/app/game/game.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { GameData } from 'src/app/game/igame.interface';
+import { GameData } from 'src/app/game/game.interface';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 import { GameService } from './game.service';
 

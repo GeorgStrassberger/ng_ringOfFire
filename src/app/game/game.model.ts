@@ -1,4 +1,4 @@
-import { GameData } from './igame.interface';
+import { GameData } from './game.interface';
 
 export class Game implements GameData {
   public players: string[] = [];

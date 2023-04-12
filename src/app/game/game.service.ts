@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // Game Model / Interface
-import { Game } from 'src/app/game/game';
+import { Game } from 'src/app/game/game.model';
 // Firestore API's
 import {
   collection,
@@ -17,7 +17,7 @@ import {
   deleteDoc, // in den anderen import
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { GameData } from './igame.interface';
+import { GameData } from './game.interface';
 
 @Injectable({
   providedIn: 'root',

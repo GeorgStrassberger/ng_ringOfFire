@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { Game } from 'src/app/game/game';
+import { Game } from 'src/app/game/game.model';
 import { GameService } from '../game/game.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { GameData } from '../game/igame.interface';
+import { GameData } from '../game/game.interface';
 
 @Component({
   selector: 'app-start-screen',
