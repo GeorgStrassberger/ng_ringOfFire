@@ -11,6 +11,15 @@
   img {
     height: 100vh;
   }
+  .output {
+    text-align: center;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 60vw;
+    height: 60vh;
+    background-color: tomato;
+  }
 
   .start-label-box {
     position: absolute;

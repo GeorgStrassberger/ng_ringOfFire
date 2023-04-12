@@ -6,5 +6,5 @@ export interface GameData {
   currentPlayer: number;
   pickCardAnimation: boolean;
   currentCard: string;
-  uid: string;
+  id?: string;
 }

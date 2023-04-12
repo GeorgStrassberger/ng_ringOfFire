@@ -1,4 +1,4 @@
-import { GameData } from './game-data';
+import { GameData } from './igame.interface';
 
 export class Game implements GameData {
   public players: string[] = [];
@@ -8,7 +8,7 @@ export class Game implements GameData {
   public currentPlayer: number = 0;
   public pickCardAnimation = false;
   public currentCard: string = '';
-  public uid: string = 'yxcv';
+  public id: string = '';
 
   constructor() {
     for (let i = 1; i < 14; i++) {
@@ -29,7 +29,7 @@ export class Game implements GameData {
       currentPlayer: this.currentPlayer,
       pickCardAnimation: this.pickCardAnimation,
       currentCard: this.currentCard,
-      uid: this.uid,
+      id: this.id,
     };
   }
 

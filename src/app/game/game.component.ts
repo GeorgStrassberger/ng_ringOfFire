@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Game } from 'src/models/game';
+import { Game } from 'src/app/game/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { GameData } from 'src/models/game-data';
+import { GameData } from 'src/app/game/igame.interface';
 import { EditPlayerComponent } from '../edit-player/edit-player.component';
 import { GameService } from './game.service';
 
@@ -21,13 +21,12 @@ export class GameComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private AngularFire: AngularFirestore,
-    private route: ActivatedRoute,
-    public gameService: GameService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.newGame();
-    this.gameService.getRouteId();
+
     this.route.params.subscribe((params): void => {
       this.gameId = params['uid'];
 
