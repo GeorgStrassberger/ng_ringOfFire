@@ -3,8 +3,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { Game } from 'src/app/game/game.model';
 import { GameService } from '../game/game.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { GameData } from '../game/game.interface';
+import { JoinGameComponent } from '../join-game/join-game.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-start-screen',
@@ -12,22 +14,14 @@ import { GameData } from '../game/game.interface';
   styleUrls: ['./start-screen.component.scss'],
 })
 export class StartScreenComponent implements OnInit, OnDestroy {
-  allGames$: Observable<GameData[]>;
-
   constructor(
+    public dialog: MatDialog,
     public gameService: GameService,
     private router: Router,
     private AngularFire: AngularFirestore
-  ) {
-    this.allGames$ = this.gameService.getAllGames();
-  }
+  ) {}
 
-  ngOnInit(): void {
-    console.log('allGames$', this.allGames$);
-    this.allGames$.subscribe((allGames) => {
-      console.log('allGames$.subcribe: ', allGames);
-    });
-  }
+  ngOnInit(): void {}
 
   async startGame() {
     const newGameInstanc = new Game();
@@ -41,6 +35,11 @@ export class StartScreenComponent implements OnInit, OnDestroy {
 
   joinGame(id: string) {
     this.router.navigateByUrl('/game/' + id);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(JoinGameComponent);
+    dialogRef.afterClosed().subscribe((name: string): void => {});
   }
 
   ngOnDestroy(): void {}

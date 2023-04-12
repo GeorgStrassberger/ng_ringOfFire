@@ -1,0 +1,16 @@
+<div class="card-title">
+  <h1 mat-dialog-title>Seclet Game</h1>
+</div>
+
+<div mat-dialog-content>
+  <div class="gameBtns" *ngFor="let game of this.allGames$ | async">
+    <app-golden-button (click)="selectGame(game.id)" [valueMessage]="game.id
+     "></app-golden-button>
+  </div>
+</div>
+
+<div class="btn-container" mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onClose()">Close</button>
+  <button mat-raised-button color="primary" (click)="joinGame()" [mat-dialog-close]="'JOIN'"
+    cdkFocusInitial>JOIN</button>
+</div>

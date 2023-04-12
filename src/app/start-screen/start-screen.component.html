@@ -12,6 +12,6 @@
 
   <div class="start-label-box">
     <app-golden-button (click)="startGame()" [valueMessage]="'Start New Game'"></app-golden-button>
-    <app-golden-button [valueMessage]="'Join open Game'"></app-golden-button>
+    <app-golden-button (click)="openDialog()" [valueMessage]="'Join open Game'"></app-golden-button>
   </div>
 </div>
