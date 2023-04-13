@@ -22,7 +22,6 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './cards/edit-player/edit-player.component';
 import { GoldenButtonComponent } from './buttons/golden-button/golden-button.component';
 import { JoinGameComponent } from './cards/join-game/join-game.component';
@@ -38,7 +37,6 @@ import { EnoughPlayerComponent } from './cards/enough-player/enough-player.compo
     PlayerComponent,
     DialogAddPlayerComponent,
     GameInfoComponent,
-    PlayerMobileComponent,
     EditPlayerComponent,
     GoldenButtonComponent,
     JoinGameComponent,

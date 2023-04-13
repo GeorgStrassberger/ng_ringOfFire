@@ -17,23 +17,24 @@ import { EnoughPlayerComponent } from '../cards/enough-player/enough-player.comp
 export class GameComponent implements OnInit {
   gameOver: boolean = false;
   game: Game;
-  gameId: string;
+  currentGameID: string;
 
   constructor(
     public dialog: MatDialog,
     private AngularFire: AngularFirestore,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private gameService: GameService
   ) {}
 
   ngOnInit(): void {
     this.newGame();
 
     this.route.params.subscribe((params): void => {
-      this.gameId = params['uid'];
+      this.currentGameID = params['uid'];
 
       this.AngularFire.collection('games')
-        .doc(this.gameId)
+        .doc(this.currentGameID)
         .valueChanges()
         .subscribe((game: GameData): void => {
           this.game.currentCard = game.currentCard;
@@ -67,12 +68,12 @@ export class GameComponent implements OnInit {
         this.game.currentPlayer =
           this.game.currentPlayer % this.game.players.length;
 
-        this.updateGame(); // saveGame
+        this.updateGame();
 
         setTimeout((): void => {
           this.game.playedCards.push(this.game.currentCard);
           this.game.pickCardAnimation = false;
-          this.updateGame(); // saveGame
+          this.updateGame();
         }, 1000);
       }
     } else {
@@ -116,14 +117,21 @@ export class GameComponent implements OnInit {
       });
     }
   }
-  // saveGame
+
   updateGame(): void {
-    this.AngularFire.collection('games') // die Sammlung
-      .doc(this.gameId) // das Document
-      .update(this.game.toJSON()); // das Object
+    this.AngularFire.collection('games')
+      .doc(this.currentGameID)
+      .update(this.game.toJSON());
   }
 
-  closeGame() {
-    this.router.navigateByUrl('');
+  closeGame(): void {
+    // for login logic - delete game if last player is leave
+    if (this.game.players.length <= 1) {
+      this.gameService.deleteGame(this.currentGameID);
+      this.router.navigateByUrl('');
+    } else {
+      // message to remember game is still open
+      this.router.navigateByUrl('');
+    }
   }
 }
