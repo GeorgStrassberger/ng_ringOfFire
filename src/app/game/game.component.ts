@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GameData } from 'src/app/game/game.interface';
 import { EditPlayerComponent } from '../cards/edit-player/edit-player.component';
 import { GameService } from './game.service';
+import { EnoughPlayerComponent } from '../cards/enough-player/enough-player.component';
 
 @Component({
   selector: 'app-game',
@@ -102,14 +103,18 @@ export class GameComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    dialogRef.afterClosed().subscribe((name: string): void => {
-      if (name) {
-        if (name.length > 0 && name.length < 20) {
+    if (this.game.players.length >= 8) {
+      this.dialog.open(EnoughPlayerComponent);
+    } else {
+      const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+      dialogRef.afterClosed().subscribe((name: string): void => {
+        if (name) {
+          if (name.length > 0 && name.length < 20) {
+          }
+          this.addPlayer(name);
         }
-        this.addPlayer(name);
-      }
-    });
+      });
+    }
   }
   // saveGame
   updateGame(): void {
