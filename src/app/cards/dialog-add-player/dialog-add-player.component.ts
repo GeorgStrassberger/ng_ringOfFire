@@ -15,7 +15,9 @@ export class DialogAddPlayerComponent implements OnInit {
     'serious-woman.svg',
     'winkboy.svg',
   ];
+
   name: string = '';
+  picture: string = '';
 
   constructor(public dialogRef: MatDialogRef<DialogAddPlayerComponent>) {}
 
@@ -23,5 +25,9 @@ export class DialogAddPlayerComponent implements OnInit {
 
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  selctedPicture(i: number) {
+    this.picture = this.allProfilePictures[i];
   }
 }

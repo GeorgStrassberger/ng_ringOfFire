@@ -26,6 +26,7 @@ import { PlayerMobileComponent } from './player-mobile/player-mobile.component';
 import { EditPlayerComponent } from './cards/edit-player/edit-player.component';
 import { GoldenButtonComponent } from './buttons/golden-button/golden-button.component';
 import { JoinGameComponent } from './cards/join-game/join-game.component';
+import { GameOverComponent } from './game-over/game-over.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { JoinGameComponent } from './cards/join-game/join-game.component';
     EditPlayerComponent,
     GoldenButtonComponent,
     JoinGameComponent,
+    GameOverComponent,
   ],
   imports: [
     FormsModule,

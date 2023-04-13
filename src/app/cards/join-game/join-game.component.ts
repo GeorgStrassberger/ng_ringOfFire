@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { GameData } from '../../game/game.interface';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './join-game.component.html',
   styleUrls: ['./join-game.component.scss'],
 })
-export class JoinGameComponent {
+export class JoinGameComponent implements OnDestroy {
   allGames$: Observable<GameData[]>;
 
   selectedGameId: string = '';
@@ -41,4 +41,6 @@ export class JoinGameComponent {
   joinGame() {
     this.router.navigateByUrl('/game/' + this.selectedGameId);
   }
+
+  ngOnDestroy(): void {}
 }

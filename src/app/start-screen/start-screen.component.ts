@@ -38,8 +38,7 @@ export class StartScreenComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(JoinGameComponent);
-    dialogRef.afterClosed().subscribe((name: string): void => {});
+    this.dialog.open(JoinGameComponent);
   }
 
   ngOnDestroy(): void {}

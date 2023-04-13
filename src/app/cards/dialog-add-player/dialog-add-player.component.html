@@ -1,16 +1,12 @@
 <h1 mat-dialog-title>Add new player</h1>
 
-<div class="container" mat-dialog-content>
+<!-- <div class="container" mat-dialog-content>
   <p>Select a Picture</p>
   <div>
-    <img
-      [mat-dialog-close]="profilePicture"
-      class="profile-picture"
-      *ngFor="let profilePicture of allProfilePictures"
-      src="/assets/img/profile/{{ profilePicture }}"
-    />
+    <img class="profile-picture" *ngFor="let profilePicture of allProfilePictures; let i = index"
+      src="/assets/img/profile/{{ profilePicture }}" (click)="selctedPicture(i)" />
   </div>
-</div>
+</div> -->
 <div mat-dialog-content>
   <p>Please enter the name of a player.</p>
   <mat-form-field>
@@ -21,12 +17,7 @@
 
 <div mat-dialog-actions>
   <button mat-button (click)="onClose()">No Thanks</button>
-  <button
-    mat-button
-    [disabled]="name.length == 0"
-    [mat-dialog-close]="name"
-    cdkFocusInitial
-  >
+  <button mat-button [disabled]="name.length == 0" [mat-dialog-close]="name" cdkFocusInitial>
     Ok
   </button>
 </div>

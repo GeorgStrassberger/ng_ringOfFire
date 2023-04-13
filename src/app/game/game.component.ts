@@ -3,7 +3,7 @@ import { Game } from 'src/app/game/game.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../cards/dialog-add-player/dialog-add-player.component';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GameData } from 'src/app/game/game.interface';
 import { EditPlayerComponent } from '../cards/edit-player/edit-player.component';
 import { GameService } from './game.service';
@@ -21,7 +21,8 @@ export class GameComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private AngularFire: AngularFirestore,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +58,7 @@ export class GameComponent implements OnInit {
     if (this.enoughPlayers()) {
       if (this.game.stack.length === 0) {
         this.gameOver = true;
+        console.log('Keine Karten mehr');
       } else if (!this.game.pickCardAnimation) {
         this.game.currentCard = this.game.stack.pop();
         this.game.pickCardAnimation = true;
@@ -114,5 +116,9 @@ export class GameComponent implements OnInit {
     this.AngularFire.collection('games') // die Sammlung
       .doc(this.gameId) // das Document
       .update(this.game.toJSON()); // das Object
+  }
+
+  closeGame() {
+    this.router.navigateByUrl('');
   }
 }

@@ -25,6 +25,8 @@ import { GameData } from './game.interface';
 export class GameService {
   gameCollection: CollectionReference<DocumentData>;
 
+  sammlung;
+
   constructor(private readonly firestore: Firestore) {
     this.gameCollection = collection(this.firestore, 'games');
   }
