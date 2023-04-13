@@ -27,6 +27,7 @@ import { EditPlayerComponent } from './cards/edit-player/edit-player.component';
 import { GoldenButtonComponent } from './buttons/golden-button/golden-button.component';
 import { JoinGameComponent } from './cards/join-game/join-game.component';
 import { GameOverComponent } from './game-over/game-over.component';
+import { ShortenPipe } from './pipe/shorten.pipe';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { GameOverComponent } from './game-over/game-over.component';
     GoldenButtonComponent,
     JoinGameComponent,
     GameOverComponent,
+    ShortenPipe,
   ],
   imports: [
     FormsModule,

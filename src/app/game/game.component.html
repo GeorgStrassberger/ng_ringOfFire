@@ -6,12 +6,10 @@
   </div>
   <div *ngIf="!gameOver">
     <app-player (click)="editPlayer(i)" class="player-position" *ngFor="let player of game.players; let i = index"
-      [ngStyle]="{ 'top.px': 20 + i * 70 }" [name]="player" [playerActive]="i == game.currentPlayer"
+      [ngStyle]="{ 'top.px': 70 + i * 70 }" [name]="player" [playerActive]="i == game.currentPlayer"
       [profileImg]="game.player_images[i]">
     </app-player>
   </div>
-  <!-- Bild vorladen -->
-  <img class="preloadImage" src="/assets/img/cards/{{ game.stack[game.stack.length - 1] }}.png" />
 
   <div class="card-stack">
     <!-- Card Stack -->
@@ -39,4 +37,5 @@
 
 
 </div>
-<!-- Material Design Card -->
+<!-- Bild vorladen -->
+<img class="preloadImage" src="/assets/img/cards/{{ game.stack[game.stack.length - 1] }}.png" />

@@ -1,11 +1,13 @@
 .preloadImage {
-  position: relative;
+  position: absolute;
+  top: 0;
   opacity: 0;
   z-index: -10;
   height: 1px;
 }
 
 .field {
+  position: relative;
   height: 100vh;
   width: 100vw;
   max-width: 100%;
@@ -16,6 +18,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   .menu {
     position: absolute;
     top: 0;
@@ -30,7 +33,7 @@
   }
 
   .card-stack {
-    position: relative;
+    position: absolute;
 
     img {
       position: absolute;
@@ -47,13 +50,15 @@
     }
 
     .played-card {
+      position: absolute;
+      top: 0;
       right: 20px;
-      transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
+      transform: scale(1.1) translate(0, -200px) rotate(-10deg);
     }
 
     .pick-card {
       animation: pick-card-animation 1s ease-in-out;
-      transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
+      transform: scale(1.1) translate(0, -200px) rotate(-10deg);
     }
   }
 }
@@ -105,6 +110,6 @@
   }
 
   100% {
-    transform: scale(1.1) translate(150px, -120px) rotate(-10deg);
+    transform: scale(1.1) translate(0, -200px) rotate(-10deg);
   }
 }

@@ -1,4 +1,4 @@
 <div class="player" [class.player-active]="playerActive">
     <img src="/assets/img/profile/{{ profileImg }}">
-    <span>{{ name }}</span>
+    <span>{{ name | shorten: 10 }}</span>
 </div>
