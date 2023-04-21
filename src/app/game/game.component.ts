@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Game } from 'src/app/game/game.model';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../cards/dialog-add-player/dialog-add-player.component';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GameData } from 'src/app/game/game.interface';
 import { EditPlayerComponent } from '../cards/edit-player/edit-player.component';
@@ -14,42 +13,36 @@ import { EnoughPlayerComponent } from '../cards/enough-player/enough-player.comp
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   gameOver: boolean = false;
-  game: Game;
+  game: GameData = new Game();
   currentGameID: string;
+  currentGame$;
 
   constructor(
     public dialog: MatDialog,
-    private AngularFire: AngularFirestore,
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService
   ) {}
 
   ngOnInit(): void {
-    this.newGame();
-
     this.route.params.subscribe((params): void => {
       this.currentGameID = params['uid'];
-
-      this.AngularFire.collection('games')
-        .doc(this.currentGameID)
-        .valueChanges()
-        .subscribe((game: GameData): void => {
-          this.game.currentCard = game.currentCard;
-          this.game.player_images = game.player_images;
-          this.game.currentPlayer = game.currentPlayer;
-          this.game.pickCardAnimation = game.pickCardAnimation;
-          this.game.playedCards = game.playedCards;
-          this.game.players = game.players;
-          this.game.stack = game.stack;
-        });
     });
-  }
 
-  newGame(): void {
-    this.game = new Game();
+    this.currentGame$ = this.gameService.getGame(this.currentGameID);
+
+    this.currentGame$.subscribe((gameData: GameData) => {
+      this.game.currentCard = gameData.currentCard;
+      this.game.player_images = gameData.player_images;
+      this.game.currentPlayer = gameData.currentPlayer;
+      this.game.pickCardAnimation = gameData.pickCardAnimation;
+      this.game.playedCards = gameData.playedCards;
+      this.game.players = gameData.players;
+      this.game.stack = gameData.stack;
+      this.game.id = this.currentGameID;
+    });
   }
 
   enoughPlayers(): boolean {
@@ -58,23 +51,23 @@ export class GameComponent implements OnInit {
 
   takeCard(): void {
     if (this.enoughPlayers()) {
-      if (this.game.stack.length === 0) {
-        this.gameOver = true;
-        console.log('Keine Karten mehr');
-      } else if (!this.game.pickCardAnimation) {
+      if (!this.game.pickCardAnimation && this.game.stack.length > 0) {
         this.game.currentCard = this.game.stack.pop();
         this.game.pickCardAnimation = true;
         this.game.currentPlayer++;
         this.game.currentPlayer =
           this.game.currentPlayer % this.game.players.length;
-
-        this.updateGame();
+        console.log('this.game.stack.length', this.game.stack.length);
+        this.updateGame(this.game);
 
         setTimeout((): void => {
           this.game.playedCards.push(this.game.currentCard);
           this.game.pickCardAnimation = false;
-          this.updateGame();
+          this.updateGame(this.game);
         }, 1000);
+      } else if (this.game.stack.length === 0) {
+        console.log('Keine KArten Mehr');
+        this.gameOver = true;
       }
     } else {
       this.openDialog();
@@ -92,7 +85,7 @@ export class GameComponent implements OnInit {
         } else {
           this.game.player_images[playerID] = change;
         }
-        this.updateGame();
+        this.updateGame(this.game);
       }
     });
   }
@@ -100,7 +93,7 @@ export class GameComponent implements OnInit {
   addPlayer(name: string): void {
     this.game.players.push(name);
     this.game.player_images.push('male.webp');
-    this.updateGame();
+    this.updateGame(this.game);
   }
 
   openDialog(): void {
@@ -118,10 +111,8 @@ export class GameComponent implements OnInit {
     }
   }
 
-  updateGame(): void {
-    this.AngularFire.collection('games')
-      .doc(this.currentGameID)
-      .update(this.game.toJSON());
+  updateGame(gameData) {
+    this.gameService.updateGame(gameData);
   }
 
   closeGame(): void {
@@ -134,4 +125,6 @@ export class GameComponent implements OnInit {
       this.router.navigateByUrl('');
     }
   }
+
+  ngOnDestroy(): void {}
 }

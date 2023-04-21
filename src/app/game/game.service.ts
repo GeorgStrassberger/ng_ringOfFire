@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 // Game Model / Interface
 import { Game } from 'src/app/game/game.model';
 // Firestore API's
@@ -24,8 +24,6 @@ import { GameData } from './game.interface';
 })
 export class GameService {
   gameCollection: CollectionReference<DocumentData>;
-
-  sammlung;
 
   constructor(private readonly firestore: Firestore) {
     this.gameCollection = collection(this.firestore, 'games');
