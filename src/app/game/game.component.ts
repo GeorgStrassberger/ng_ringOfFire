@@ -11,7 +11,7 @@ import { EnoughPlayerComponent } from '../cards/enough-player/enough-player.comp
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss'],
+  styleUrls: ['./game.component.scss', './game.media.component.scss'],
 })
 export class GameComponent implements OnInit, OnDestroy {
   gameOver: boolean = false;
@@ -65,8 +65,8 @@ export class GameComponent implements OnInit, OnDestroy {
           this.game.pickCardAnimation = false;
           this.updateGame(this.game);
         }, 1000);
-      } else if (this.game.stack.length === 0) {
-        console.log('Keine KArten Mehr');
+      } else if (this.game.stack.length == 0) {
+        console.log('Keine Karten mehr');
         this.gameOver = true;
       }
     } else {
