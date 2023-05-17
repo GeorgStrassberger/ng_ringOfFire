@@ -1,47 +1,40 @@
 /* Extra small devices (phones, 600px and down) */
+
 @media only screen and (max-width: 380px) {
   .field {
     .card-stack {
       img {
         width: 3rem;
       }
-
       .top-card {
         cursor: pointer;
         transition: all 125ms ease-in-out;
-
         &:hover {
           transform: scale(1.1);
         }
       }
-
       .played-card {
         position: absolute;
         top: 0;
         right: 20px;
         transform: scale(1.1) translate(0, -6rem) rotate(-10deg);
       }
-
       .pick-card {
         animation: pick-card-animation 1s ease-in-out;
         transform: scale(1.1) translate(0, -6rem) rotate(-10deg);
       }
     }
   }
-
   @keyframes pick-card-animation {
     0% {
       transform: scale(1.1);
     }
-
     40% {
       transform: scale(1.7);
     }
-
     60% {
       transform: scale(1.7);
     }
-
     100% {
       transform: scale(1.1) translate(0, -6rem) rotate(-10deg);
     }
@@ -49,32 +42,28 @@
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
+
 @media only screen and (min-width: 380px) {
   .field {
     .card-stack {
       position: absolute;
-
       img {
         position: absolute;
         width: 5rem;
       }
-
       .top-card {
         cursor: pointer;
         transition: all 125ms ease-in-out;
-
         &:hover {
           transform: scale(1.1);
         }
       }
-
       .played-card {
         position: absolute;
         top: 0;
         right: 20px;
         transform: scale(1.1) translate(0, -10rem) rotate(-10deg);
       }
-
       .pick-card {
         animation: pick-card-animation 1s ease-in-out;
         transform: scale(1.1) translate(0, -10rem) rotate(-10deg);
@@ -85,15 +74,12 @@
     0% {
       transform: scale(1.1);
     }
-
     40% {
       transform: scale(1.7);
     }
-
     60% {
       transform: scale(1.7);
     }
-
     100% {
       transform: scale(1.1) translate(0, -10rem) rotate(-10deg);
     }
@@ -101,6 +87,7 @@
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
+
 @media only screen and (min-width: 600px) {
   .field {
     .players {
@@ -117,35 +104,28 @@
       right: 1rem;
       z-index: 20;
     }
-
     .player-position {
       z-index: 10;
     }
-
     .card-stack {
       position: absolute;
-
       img {
         position: absolute;
         width: 6rem;
       }
-
       .top-card {
         cursor: pointer;
         transition: all 125ms ease-in-out;
-
         &:hover {
           transform: scale(1.1);
         }
       }
-
       .played-card {
         position: absolute;
         top: 0;
         right: 20px;
         transform: scale(1.1) translate(0, -12rem) rotate(-10deg);
       }
-
       .pick-card {
         animation: pick-card-animation 1s ease-in-out;
         transform: scale(1.1) translate(0, -12rem) rotate(-10deg);
@@ -155,6 +135,7 @@
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
+
 @media only screen and (min-width: 768px) {
   .pin-bottom {
     height: 150px;
@@ -166,15 +147,12 @@
     0% {
       transform: scale(1.1);
     }
-
     40% {
       transform: scale(1.7);
     }
-
     60% {
       transform: scale(1.7);
     }
-
     100% {
       transform: scale(1.1) translate(0, -12rem) rotate(-10deg);
     }
@@ -182,9 +160,11 @@
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
+
 @media only screen and (min-width: 992px) {
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
+
 @media only screen and (min-width: 1200px) {
 }
